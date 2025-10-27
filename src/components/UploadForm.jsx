@@ -10,10 +10,23 @@ export default function UploadForm({onNew}){
     setLoading(true);
     try{
       const res = await uploadFile(file);
-      onNew(res);
-      alert("PDF analysé — ajouté à l'historique");
+      
+      // Vérifier si c'est un doublon
+      if (res.status === "duplicate") {
+        alert("⚠️ Ce relevé est déjà dans l'historique.\n\nDate du relevé : " + res.record.report_date + "\n\nAucune modification effectuée.");
+      } else {
+        // Recharger l'historique depuis l'API
+        onNew();
+        alert("✅ PDF analysé et ajouté à l'historique !\n\nDate du relevé : " + res.record.report_date);
+      }
+      
+      // Réinitialiser le fichier
+      setFile(null);
+      const input = document.querySelector('input[type="file"]');
+      if (input) input.value = '';
     }catch(e){
-      alert("Erreur upload");
+      console.error(e);
+      alert("❌ Erreur lors de l'upload du PDF");
     }finally{ setLoading(false); }
   }
 

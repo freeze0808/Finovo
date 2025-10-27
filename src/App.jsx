@@ -8,8 +8,12 @@ export default function App(){
   const [logged, setLogged] = useState(false);
   const [history, setHistory] = useState([]);
 
-  useEffect(()=>{
+  const loadHistory = () => {
     getHistory().then(setHistory);
+  };
+
+  useEffect(()=>{
+    loadHistory();
   },[]);
 
   if(!logged) return <Login onLogin={()=>setLogged(true)} />;
@@ -19,7 +23,7 @@ export default function App(){
         <h1>🏦 Mon Assurance Vie & PEA - Tracker</h1>
         <div className="small">Utilisateur connecté</div>
       </div>
-      <UploadForm onNew={(r)=> setHistory((h)=>[...h, r])} />
+      <UploadForm onNew={loadHistory} />
       <Dashboard history={history} />
     </div>
   );

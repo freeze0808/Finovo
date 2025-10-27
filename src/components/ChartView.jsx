@@ -8,14 +8,26 @@ export default function ChartView({history=[]}){
     return null;
   }
 
-  const labels = history.map(h => {
+  // Garde-fou : dédupliquer par date (un seul point par jour)
+  const uniqueByDate = history.reduce((acc, current) => {
+    const existingIndex = acc.findIndex(item => item.report_date === current.report_date);
+    if (existingIndex >= 0) {
+      // Si doublon, garder le dernier
+      acc[existingIndex] = current;
+    } else {
+      acc.push(current);
+    }
+    return acc;
+  }, []);
+
+  const labels = uniqueByDate.map(h => {
     // Formater la date pour l'affichage
     const date = new Date(h.report_date);
     return date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
   });
   
-  const values = history.map(h => h.value_atteinte || 0);
-  const verses = history.map(h => h.total_verse || h.total_investi || null);
+  const values = uniqueByDate.map(h => h.value_atteinte || 0);
+  const verses = uniqueByDate.map(h => h.total_verse || h.total_investi || null);
   
   // Filtrer les datasets vides
   const datasets = [
@@ -145,7 +157,7 @@ export default function ChartView({history=[]}){
         <Line data={data} options={options} />
       </div>
       <p className="small" style={{marginTop: '16px', textAlign: 'center'}}>
-        {history.length} relevé{history.length > 1 ? 's' : ''} enregistré{history.length > 1 ? 's' : ''}
+        {uniqueByDate.length} relevé{uniqueByDate.length > 1 ? 's' : ''} enregistré{uniqueByDate.length > 1 ? 's' : ''}
       </p>
     </div>
   );

@@ -3,7 +3,19 @@ import ChartView from "./ChartView";
 import TransactionHistory from "./TransactionHistory";
 
 export default function Dashboard({history=[]}){
-  const sorted = [...history].sort((a,b)=> new Date(a.report_date) - new Date(b.report_date));
+  // Dédupliquer l'historique : garder un seul relevé par date (le dernier en cas de doublon)
+  const deduped = history.reduce((acc, current) => {
+    const existingIndex = acc.findIndex(item => item.report_date === current.report_date);
+    if (existingIndex >= 0) {
+      // Remplacer si c'est un doublon (garder le dernier)
+      acc[existingIndex] = current;
+    } else {
+      acc.push(current);
+    }
+    return acc;
+  }, []);
+  
+  const sorted = [...deduped].sort((a,b)=> new Date(a.report_date) - new Date(b.report_date));
   const latest = sorted[sorted.length-1] || null;
   const total_invested = latest ? (latest.total_verse || latest.total_investi) : 0;
   
@@ -71,7 +83,7 @@ export default function Dashboard({history=[]}){
             <tr><th>Valeur atteinte</th><td style={{fontWeight: 600}}>{latest.value_atteinte?.toLocaleString('fr-FR', {minimumFractionDigits: 2})} €</td></tr>
             {total_invested > 0 && <tr><th>Total versé</th><td>{total_invested?.toLocaleString('fr-FR', {minimumFractionDigits: 2})} €</td></tr>}
             {latest.gain && <tr><th>Gain</th><td style={{color: latest.gain >= 0 ? '#48bb78' : '#f56565', fontWeight: 600}}>{latest.gain?.toLocaleString('fr-FR', {minimumFractionDigits: 2})} € ({latest.performance_pct} %)</td></tr>}
-            <tr><th>Nombre de relevés</th><td>{sorted.length}</td></tr>
+                   <tr><th>Nombre de relevés</th><td>{sorted.length} {sorted.length !== history.length && <span className="small" style={{color: '#718096'}}>(dédupliqués)</span>}</td></tr>
           </tbody>
         </table>
       </div>
