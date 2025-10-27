@@ -26,7 +26,11 @@ export default function UploadForm({onNew}){
       if (input) input.value = '';
     }catch(e){
       console.error(e);
-      alert("❌ Erreur lors de l'upload du PDF");
+      if (e.name === 'AbortError') {
+        alert("❌ Le serveur met trop de temps à répondre.\n\nIl se réveille peut-être après une période d'inactivité.\nRéessayez dans quelques instants.");
+      } else {
+        alert("❌ Erreur lors de l'upload du PDF\n\n" + e.message);
+      }
     }finally{ setLoading(false); }
   }
 

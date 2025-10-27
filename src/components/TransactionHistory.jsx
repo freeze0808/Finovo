@@ -110,3 +110,4 @@ function getTypeColor(type) {
   return { bg: '#f3f4f6', text: '#374151' };
 }
 
+
