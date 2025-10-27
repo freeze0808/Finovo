@@ -140,12 +140,19 @@ button:disabled {
   margin: 0;
 }
 
+.stat-card .small {
+  color: rgba(255, 255, 255, 0.95) !important;
+  font-size: 13px;
+}
+
 .stat-card.positive {
   background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+  box-shadow: 0 4px 6px rgba(72, 187, 120, 0.3);
 }
 
 .stat-card.negative {
   background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+  box-shadow: 0 4px 6px rgba(245, 101, 101, 0.3);
 }
 
 input[type="file"] {

@@ -40,7 +40,7 @@ export default function Dashboard({history=[]}){
         <div className="stat-card">
           <h4>💰 Valeur Atteinte</h4>
           <p className="value">{latest.value_atteinte?.toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2})} €</p>
-          <p className="small" style={{margin: '8px 0 0 0', opacity: 0.8}}>Au {latest.report_date}</p>
+          <p className="small" style={{margin: '8px 0 0 0', opacity: 1, color: 'rgba(255,255,255,0.95)'}}>Au {latest.report_date}</p>
         </div>
 
         {total_invested > 0 && (
@@ -55,7 +55,7 @@ export default function Dashboard({history=[]}){
             <h4>{latest.gain >= 0 ? '📈' : '📉'} Gain / Perte</h4>
             <p className="value">{latest.gain?.toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2})} €</p>
             {latest.performance_pct && (
-              <p className="small" style={{margin: '8px 0 0 0', opacity: 0.9}}>
+              <p className="small" style={{margin: '8px 0 0 0', opacity: 1, color: 'rgba(255,255,255,0.95)'}}>
                 {latest.performance_pct > 0 ? '+' : ''}{latest.performance_pct} %
               </p>
             )}
@@ -66,7 +66,7 @@ export default function Dashboard({history=[]}){
           <div className={`stat-card ${parseFloat(evolution) >= 0 ? 'positive' : 'negative'}`}>
             <h4>📊 Évolution</h4>
             <p className="value">{evolution > 0 ? '+' : ''}{evolution} %</p>
-            <p className="small" style={{margin: '8px 0 0 0', opacity: 0.9}}>Depuis dernier relevé</p>
+            <p className="small" style={{margin: '8px 0 0 0', opacity: 1, color: 'rgba(255,255,255,0.95)'}}>Depuis dernier relevé</p>
           </div>
         )}
       </div>
