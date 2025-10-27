@@ -1,0 +1,10 @@
+body { font-family: Inter, Arial, sans-serif; background:#f7fafc; margin:0; padding:20px;}
+.container{ max-width:1000px; margin:0 auto;}
+.card{ background:white; padding:16px; border-radius:8px; box-shadow:0 1px 6px rgba(0,0,0,0.06); margin-bottom:12px;}
+.header{ display:flex; align-items:center; justify-content:space-between;}
+h1{ margin:0; font-size:20px;}
+button{ cursor:pointer; }
+.table { width:100%; border-collapse:collapse;}
+.table td, .table th { padding:8px; border-bottom:1px solid #eee;}
+.small { font-size:13px; color:#666;}
+
